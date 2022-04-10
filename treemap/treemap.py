@@ -3,6 +3,7 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 import re
+import textwrap
 pd.set_option("display.max_rows", None)
 
 # Load data
@@ -92,6 +93,12 @@ df["world"] = "Commodity Categories"  # in order to have a single root node
 # Sort the labels by the path in reverse order to make sure the order in tooltip is correct
 df.sort_values(by=['commodity','world'], inplace=True)
 
+# Wrap label
+def customwrap(s,width=50):
+    return "<br>".join(textwrap.wrap(s,width=width))
+
+df.commodity = df.commodity.map(customwrap)
+
 fig = px.treemap(
     df,
     path=["world", "commodity"],  # << sets hierarchy
@@ -110,5 +117,4 @@ customdata = np.column_stack([year, quantity])
 hovertemplate  = 'Category = %{label}<br>Year = %{customdata[0]}<br>Trade value(US $MM) = %{value}<br>Quantity = %{customdata[1]}'
 fig.update_traces(customdata=customdata, hovertemplate=hovertemplate)
 fig.show()
-
 fig.write_html("treemap.html")  # , auto_open=True)
