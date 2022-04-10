@@ -75,37 +75,38 @@ dat_exp16_w.drop(["qty"],axis=1,inplace=True)
 dat_exp16_w["qty"]=qty_sum["qty"]
 dat_exp16_w = dat_exp16_w[(dat_exp16_w[['trade_value__us__','qty']] != 0).all(axis=1)]
 
-# Rescale column quantity
-dat_exp16_w["qty"]=np.log(dat_exp16_w["qty"])
-
-# print(len(qty_sum), len(dat_exp16_w))
-
+# Rescale quantity and trade value
+dat_exp16_w["qty"]=round(np.log(dat_exp16_w["qty"]), 2)
+dat_exp16_w["trade_value__us__"]=round(dat_exp16_w["trade_value__us__"]/(10**6),0)
 
 # print(dat_exp16_w.tail())
 # print(dat_exp16_w.dtypes)
 
-# Sort
-dat_exp16_w.sort_values(by=['trade_value__us__'], ascending=False, inplace=True)
-dat_exp16_w=dat_exp16_w.reset_index()
-print(dat_exp16_w)
-
 # exit()
+###################################
 
 # Plot the treemap
-# df = dat_exp16_w
-dat_exp16_w["world"] = "Commodity Categories"  # in order to have a single root node
+df = dat_exp16_w
+df["world"] = "Commodity Categories"  # in order to have a single root node
+
+# Sort the labels by the path in reverse order to make sure the order in tooltip is correct
+df.sort_values(by=['commodity','world'], inplace=True)
+
 fig = px.treemap(
-    dat_exp16_w,
+    df,
     path=["world", "commodity"],  # << sets hierarchy
     values="trade_value__us__",
     color="qty",
     # hover_data=["year"],
     color_continuous_scale="RdBu",
-    color_continuous_midpoint=np.average(dat_exp16_w["qty"]),
-    labels={"qty":"Log(quantity"},
+    color_continuous_midpoint=np.average(df["qty"]),
+    labels={"qty":"Log(quantity)"},
 )
-year = dat_exp16_w.year.tolist()
-quantity = dat_exp16_w.qty.tolist()
-fig.data[0].customdata = np.column_stack([year, quantity])
-fig.data[0].hovertemplate = 'Category = %{label}<br>Year = %{customdata[0]}<br>Trade value(US$) = %{value}<br>Quantity = %{customdata[1]}'
+year = df.year.tolist()
+quantity = df.qty.tolist()
+# fig.data[0].customdata = np.column_stack([year, quantity])
+# fig.data[0].hovertemplate = 'Category = %{label}<br>Year = %{customdata[0]}<br>Trade value(US $MM) = %{value}<br>Quantity = %{customdata[1]}'
+customdata = np.column_stack([year, quantity])
+hovertemplate  = 'Category = %{label}<br>Year = %{customdata[0]}<br>Trade value(US $MM) = %{value}<br>Quantity = %{customdata[1]}'
+fig.update_traces(customdata=customdata, hovertemplate=hovertemplate)
 fig.show()
