@@ -110,3 +110,5 @@ customdata = np.column_stack([year, quantity])
 hovertemplate  = 'Category = %{label}<br>Year = %{customdata[0]}<br>Trade value(US $MM) = %{value}<br>Quantity = %{customdata[1]}'
 fig.update_traces(customdata=customdata, hovertemplate=hovertemplate)
 fig.show()
+
+fig.write_html("treemap.html")  # , auto_open=True)
