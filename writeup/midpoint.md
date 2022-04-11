@@ -96,3 +96,20 @@ Therefore, I finally chose to draw one graph that represent the overall situatio
 
 
 
+## Race Bar Chart
+![Screenshot](/racebarchart/export.png)
+
+### Rationale
+This is a race bar chart with regard to the trade value of different commodity types. The goal of this visualization is to intuitively show the changes of top10 largest categories of commodities, both imported and exported, of the US. Different colors have been assigned to each category to make the trend clearer visually. The names of the commodities shown in the chart have also been simplified from the categories given by original dataset to avoid wordy text. The scale of the trade value is in billions to ensure that there are not too many zeros and enhance visibility.
+
+Matplotlib.animation is utilized in the animation process of the race bar chart. There are three interactive options for this visual: once, loop and reflect. Users can choose flexibly according to their needs. Also there are several play options that can let users either watch the whole animation or view the graphs one by one.
+
+### Data preprocessing pipeline
+1. Select variables 'Commodity Code', 'Commodity' and 'Trade Value (US$)' from the huge dataset.
+2. Change the type of `Commodity Code` from string to int. Note that `Commodity Code` has a value “total”, which refers to the sum trade value of all categories of commodities. Since the focus of the race bar chart is the rank of commodity types, we delete “total” from the dataset and convert it to int.
+3. Choose the main categories whose `Commodity Code` is from 1 to 99.
+4. Delete the values "Commodities not specified according to kind" from the `Commodity` column.
+5. Make abbreviation for the commodity names.
+
+### Vision and goals
+The goal of the race bar chart visualization does not change. It communicates the data story in the big picture. However, it does change a little in the way we demonstrate the commodity type. Initially we tried to add small icons to show the categories more vividly, but it turned out that icons could not convey the exact information of the product types. Conveying throught text is a more professional method. Also we add the trade values on the right of the bars to make the visual more scientific.
