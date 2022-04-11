@@ -9,7 +9,7 @@ library(stringi)
 library(dplyr)
 library(plotly)
 # read in data
-setwd('/Users/linzili1235/Desktop/graduate/503/project')
+# setwd('/Users/linzili1235/Desktop/graduate/503/project')
 filenames <- list.files("proj_data", pattern = '*.csv', full.names = T)
 ldf <- lapply(filenames, fread,select = c('Year','Trade Flow Code',
                                           'Partner', 'Commodity Code', 
@@ -54,9 +54,9 @@ population = as.Node(Grouped_data)
 population = as.list(population, mode = 'explicit', unname = T)
 
 a = radialNetwork(List = population, fontSize =18, opacity = 0.9,
-                   height = 3000, width = 3000,linkColour = 'seagreen',
+                   height = 1500, width = 1500,linkColour = 'seagreen',
               nodeColour = 'pink'
-                 )%>%saveNetwork('radk.html', selfcontained = T)
+                 )%>%saveNetwork('radial.html', selfcontained = T)
 
 
 
