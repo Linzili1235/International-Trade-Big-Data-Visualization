@@ -1,4 +1,9 @@
+# Midpoint Writeup
+
 ## Treemap
+* **Rationale** 
+    asdfasd
+
 * **Data preprocessing pipeline**
     1. Change column names to snake case
     2. Drop unwanted columns
