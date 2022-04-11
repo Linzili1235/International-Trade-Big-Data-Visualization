@@ -8,7 +8,11 @@
 
 ## World Heat Map
 
-![screen shot](/map/.png)
+Import:
+![screen shot](/map/import.png)
+
+Export:
+![screen shot](/map/export.png)
 
 
 ### Rationale
