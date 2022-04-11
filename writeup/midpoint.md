@@ -77,7 +77,7 @@ The goal of the race bar chart visualization does not change. It communicates th
 
 ## Slope Chart
 
-![screen shot](slopechart/slope_chart.png)
+![screen shot](/slopechart/slope_chart.png)
 
 
 ### Rationale
