@@ -8,19 +8,19 @@
 
 ## World Heat Map
 
-![screen shot](https://github.com/anly503/project-spring-2022-project-group-10/blob/main/map/.png)
+![screen shot](/map/.png)
 
 
 ### Rationale
 
-In order to figure out the impact of COVID-19 on international trade, a slope chart is plotted to compare the difference in total amounts of trade value between year 2016 and year 2020 with respect to different kinds of commodity categories. Since both import and export trades are our focus, two slope charts are plotted respectively and put together to compare the tendency for these two types of trades. The Race Bar Chart plotted before also focuses on the change of total amounts of trade value but is more likely to concentrate on the dynamic change year by year, aiming at finding the top 10 popular categories. This slope chart is plotted to help catch the audience's eyes immediately on the change between the beginning and the end year by the slope of each line. Moreover, the color of the slope clearly shows whether the change is positive or negative. Since there are over 90 categories, it is not realistic to plot changes in all categories. Moreover, the most popular categories of commodities are our primary interests. Therefore, we only select the top 8 categories based on the plotting result of the Race Bar Chart and perform the visualization in this slope chart. 
+The interactive world heatmap shows the magnitude of both import and export trades between USA and the other countries from year 2016 to year 2020. By selecting a year on the time scroll, it shows the trading pattern in this specific year. When the time scroll moves, it is clear to see the variance of trading patterns over these years. In addition, we will add heatmap onto each trading partner country, with the color intensity of the country indicating the quantity of import/export.
 
 ### Data Preprocessing
 
-- Choose a subset of columns including `Year`, `Partner`, `Commodity.Code`, `Commodity`, `Trade.Value..US..`
-- Filter the data to keep only the trades between USA and World
-- Choose the trades with commodities belonging to the top 8 popular categories found by Race Bar Chart
-- Drop missing values
+- Remove rows with “Partner” as “world”
+- Convert all country names to 2 digit code and remove the countries with unknown codes
+- Collect the location of center point for each country.
+- Group data by country, and calculate the sum of trade values.
 
 ### Goals changed
 
