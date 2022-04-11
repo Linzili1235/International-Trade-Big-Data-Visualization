@@ -17,7 +17,7 @@
 
 ### Rationale
 
-The interactive world heatmap shows the magnitude of both import and export trades between USA and the other countries from year 2016 to year 2020. By selecting a speed on the speed slider, it shows the trading pattern in this specific speed. As the time changes, it is clear to see the variance of trading patterns over these years. 
+The interactive world heatmap shows the magnitude of both import and export trades between USA and the other countries from year 2016 to year 2020 in a form of world map with the color intensity of the country indicating the quantity of import or export. By selecting a speed on the speed slider, it shows the trading pattern in this specific speed. As the time changes, it is clear to see the variance of trading patterns over these years. From the world heatmap, it clearly shows the country having the largest total trade values with USA in each year. China has the largest total trades value with respect to import, and Canada has the largest total trades value with respect to export, since they have center points of the biggest area.
 
 ### Data Preprocessing
 
@@ -28,7 +28,7 @@ The interactive world heatmap shows the magnitude of both import and export trad
 
 ### Goals changed
 
-The original goal of the slope chart is to plot the slope line for the top 10 categories in one figure. However, because text plays a significant role in this kind of plot and there occurred some overlapping problems among texts for different categories, two categories that tend to be steady from 2016 to 2020 without any obvious change are removed from the original plot for better visualization display. Therefore, the final version of the slope chart only contains the change of 8 categories.
+The original goal of this world heatmap is to show the condition of import and export data in one map by using the inward and outward arrows, where outward arrows represent export, and inward arrows stand for import. However, because the countries involve in the international trade with USA is much more than our original imagination. If the map is filled with both inward and outward arrows for each country, then the map will look like a huge mess. Therefore, the final version of the world heatmap splits the import and export, and performs the visualizaiton respectively for better visualization display.
 
 
 ## Treemap
