@@ -13,7 +13,7 @@
 
 ### Rationale
 
-The interactive world heatmap shows the magnitude of both import and export trades between USA and the other countries from year 2016 to year 2020. By selecting a year on the time scroll, it shows the trading pattern in this specific year. When the time scroll moves, it is clear to see the variance of trading patterns over these years. In addition, we will add heatmap onto each trading partner country, with the color intensity of the country indicating the quantity of import/export.
+The interactive world heatmap shows the magnitude of both import and export trades between USA and the other countries from year 2016 to year 2020. By selecting a speed on the speed slider, it shows the trading pattern in this specific speed. As the time changes, it is clear to see the variance of trading patterns over these years. 
 
 ### Data Preprocessing
 
