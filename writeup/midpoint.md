@@ -18,6 +18,6 @@ The
 7. DONE
 
 ### Prototype illustration
-![Screenshot 1](treemap/proto1.jpg)
+![Screenshot 1](/treemap/proto1.jpg)
 
-![Screenshot 2](treemap/proto2.jpg)
+![Screenshot 2](/treemap/proto2.jpg)
