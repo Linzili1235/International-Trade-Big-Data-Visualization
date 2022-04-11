@@ -21,7 +21,7 @@ The interactive world heatmap shows the magnitude of both import and export trad
 
 ### Data Preprocessing
 
-- Remove rows with “Partner” as “world”
+- Remove rows with `Partner` as `World`
 - Convert all country names to 2 digit code and remove the countries with unknown codes
 - Collect the location of center point for each country.
 - Group data by country, and calculate the sum of trade values.
