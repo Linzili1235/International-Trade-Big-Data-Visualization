@@ -3,7 +3,7 @@
 ## Link to the data
 [Original Resource](https://comtrade.un.org/data/)
 
-[Georgetown Box] (https://georgetown.box.com/s/y0y066u564g7lgfqxowffoqb9eto3hub)
+[Georgetown Box](https://georgetown.box.com/s/y0y066u564g7lgfqxowffoqb9eto3hub)
 
 ## Treemap
 ### Rationale
@@ -31,7 +31,8 @@ My original goal was to showcase how trade values are distributed across differe
 ![Screenshot 1](/treemap/proto1.jpg)
 
 ![Screenshot 2](/treemap/proto2.jpg)
-<<<<<<< HEAD
+
+
 
 ## Radial Network
 
