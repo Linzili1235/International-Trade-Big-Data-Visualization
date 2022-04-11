@@ -1,5 +1,4 @@
 # Radial Network
-[original data](https://comtrade.un.org/data/)
 
 ![screen shot](https://github.com/anly503/project-spring-2022-project-group-10/blob/main/network/screen_shot.png)
 
@@ -13,6 +12,9 @@ The radial network contains international trade data with USA from 2016 to 2020.
 - commodity type
 
 You could move the mouse on the nodes, and then check the specific countries, their corresponding trade flows and commodity types. You can see that there are only three commodity types for each trade flow. This is because that they are calculated based on the sum of trade values from 2016 and 2020. For each country and each trade flow, commodity types with top 3 trade values will be selected. The nodes are colored pink and links are colored green so that nodes will be easily seen. I tried to set different colors for different links and nodes but R will stuck in the middle and terminate. 
+## Data
+
+[original data](https://comtrade.un.org/data/)
 
 ## Data Preprocessing
 
