@@ -6,6 +6,11 @@
 [Georgetown Box](https://georgetown.box.com/s/y0y066u564g7lgfqxowffoqb9eto3hub)
 
 ## Treemap
+### Prototype illustration
+![Screenshot 1](/treemap/proto1.jpg)
+
+![Screenshot 2](/treemap/proto2.jpg)
+
 ### Rationale
 The treemap is designed to showcase trade value and quantity rankings for all US export commodity categories. The area of each category in the treemap is proportional to its trade value. The color of each category reflects quantity. Since trade value and quantity are both numeric data types, area and color are intuitive ways to encode such continuous variables. 
 
@@ -26,11 +31,6 @@ My original goal was to showcase how trade values are distributed across differe
 5. Aggregation: compute the sum of commodity quantity for all root categories based on quantities of sub-categories
 6. Rescale quantity and trade value variables
 7. DONE
-
-### Prototype illustration
-![Screenshot 1](/treemap/proto1.jpg)
-
-![Screenshot 2](/treemap/proto2.jpg)
 
 
 
