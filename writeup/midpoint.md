@@ -26,13 +26,13 @@ The interactive world heatmap shows the magnitude of both import and export trad
 - Collect the location of center point for each country.
 - Group data by country, and calculate the sum of trade values.
 
-### Goals changed
+### Goals Changed
 
 The original goal of this world heatmap is to show the condition of import and export data in one map by using the inward and outward arrows, where outward arrows represent export, and inward arrows stand for import. However, because the countries involve in the international trade with USA is much more than our original imagination. If the map is filled with both inward and outward arrows for each country, then the map will look like a huge mess. Therefore, the final version of the world heatmap splits the import and export, and performs the visualizaiton respectively for better visualization display.
 
 
 ## Treemap
-### Prototype illustration
+
 ![Screenshot 1](/treemap/proto1.jpg)
 
 ![Screenshot 2](/treemap/proto2.jpg)
@@ -46,17 +46,17 @@ Moreover, tooltip is used to display details about each category when the cursor
 
 In terms of visual encoding choices, diverging color encoding is used for the quantity variable, which emphasizes values on both ends of the scale. 
 
-### Vision and goals
-My original goal was to showcase how trade values are distributed across different commodity catogories using percentage values to represent share in the economy. However, during the making of the prototype, I felt it is better to use absolute trade values because it gives a better sense in terms of the scale of a commodity category. Apart from this, I sticked to my original plan. The current treemap is effective in showing the top commodity categories for US export. 
+### Data Preprocessing
+- Change column names to snake case
+- Drop unwanted columns
+- Filter desired rows: partner=world and only root categories (commodity code in [1,99]) in this case
+- Convert object type columns to numeric
+- Aggregation: compute the sum of commodity quantity for all root categories based on quantities of sub-categories
+- Rescale quantity and trade value variables
+- DONE
 
-### Data preprocessing pipeline
-1. Change column names to snake case
-2. Drop unwanted columns
-3. Filter desired rows: partner=world and only root categories (commodity code in [1,99]) in this case
-4. Convert object type columns to numeric
-5. Aggregation: compute the sum of commodity quantity for all root categories based on quantities of sub-categories
-6. Rescale quantity and trade value variables
-7. DONE
+### Goals Changed
+My original goal was to showcase how trade values are distributed across different commodity catogories using percentage values to represent share in the economy. However, during the making of the prototype, I felt it is better to use absolute trade values because it gives a better sense in terms of the scale of a commodity category. Apart from this, I sticked to my original plan. The current treemap is effective in showing the top commodity categories for US export. 
 
 
 ## Race Bar Chart
@@ -67,14 +67,14 @@ This is a race bar chart with regard to the trade value of different commodity t
 
 Matplotlib.animation is utilized in the animation process of the race bar chart. There are three interactive options for this visual: once, loop and reflect. Users can choose flexibly according to their needs. Also there are several play options that can let users either watch the whole animation or view the graphs one by one.
 
-### Data preprocessing pipeline
-1. Select variables 'Commodity Code', 'Commodity' and 'Trade Value (US$)' from the huge dataset.
-2. Change the type of `Commodity Code` from string to int. Note that `Commodity Code` has a value “total”, which refers to the sum trade value of all categories of commodities. Since the focus of the race bar chart is the rank of commodity types, we delete “total” from the dataset and convert it to int.
-3. Choose the main categories whose `Commodity Code` is from 1 to 99.
-4. Delete the values "Commodities not specified according to kind" from the `Commodity` column.
-5. Make abbreviation for the commodity names.
+### Data Preprocessing
+- Select variables `Commodity Code`, `Commodity` and `Trade Value (US$)` from the huge dataset.
+- Change the type of `Commodity Code` from string to int. Note that `Commodity Code` has a value “total”, which refers to the sum trade value of all categories of commodities. Since the focus of the race bar chart is the rank of commodity types, we delete “total” from the dataset and convert it to int.
+- Choose the main categories whose `Commodity Code` is from 1 to 99.
+- Delete the values "Commodities not specified according to kind" from the `Commodity` column.
+- Make abbreviation for the commodity names.
 
-### Vision and goals
+### Goals Changed
 The goal of the race bar chart visualization does not change. It communicates the data story in the big picture. However, it does change a little in the way we demonstrate the commodity type. Initially we tried to add small icons to show the categories more vividly, but it turned out that icons could not convey the exact information of the product types. Conveying throught text is a more professional method. Also we add the trade values on the right of the bars to make the visual more scientific.
 
 
@@ -95,7 +95,7 @@ In order to figure out the impact of COVID-19 on international trade, a slope ch
 - Choose the trades with commodities belonging to the top 8 popular categories found by Race Bar Chart
 - Drop missing values
 
-### Goals changed
+### Goals Changed
 
 The original goal of the slope chart is to plot the slope line for the top 10 categories in one figure. However, because text plays a significant role in this kind of plot and there occurred some overlapping problems among texts for different categories, two categories that tend to be steady from 2016 to 2020 without any obvious change are removed from the original plot for better visualization display. Therefore, the final version of the slope chart only contains the change of 8 categories.
 
@@ -105,7 +105,7 @@ The original goal of the slope chart is to plot the slope line for the top 10 ca
 ![screen shot](https://github.com/anly503/project-spring-2022-project-group-10/blob/main/network/screen_shot.png)
 
 
-### Rationales
+### Rationale
 
 The goal of the radial network is to show the top 3 commodity types that each country have for each trade flow with USA from 2016 to 2020. The radial network contains international trade data with USA from 2016 to 2020. Specifically, the graph contains: 
 
@@ -121,7 +121,7 @@ You could move the mouse on the nodes, and then check the specific countries, th
 - Group data by Partner Trade_value,Trade_Flow and Commodity and sum the trade_value of all years
 - Choose top 3 commodities based on trade_value for each country and Trade_Flow
 
-### Goals changed
+### Goals Changed
 
 The original goal of the radial network is to give an innovative view of the original data. From the radial network, people should be able to zoom in and hover over the specific country. Moreover, there should be a control bar that will show the year change of the network.  
 
