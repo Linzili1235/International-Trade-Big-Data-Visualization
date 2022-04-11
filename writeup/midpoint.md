@@ -117,9 +117,9 @@ You could move the mouse on the nodes, and then check the specific countries, th
 
 ### Data Preprocessing
 
-- Choose column Year, Partner, Trade_Flow, Trade_Value, Commodity, Commodity_Code
-- Group data by Partner Trade_value,Trade_Flow and Commodity and sum the trade_value of all years
-- Choose top 3 commodities based on trade_value for each country and Trade_Flow
+- Choose column `Year`, `Partner`, `Trade_Flow`, `Trade_Value`, `Commodity`, `Commodity_Code`
+- Group data by Partner `Trade_value`, `Trade_Flow` and `Commodity` and sum the `Trade_Value` of all years
+- Choose top 3 commodities based on `Trade_Value` for each country and `Trade_Flow`
 
 ### Goals Changed
 
