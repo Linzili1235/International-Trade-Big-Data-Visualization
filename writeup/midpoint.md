@@ -1,7 +1,9 @@
 # Midpoint Writeup
 
 ## Link to the data
-**PUT LINK HERE**
+**Original Resource**
+**Georgetown Box** 
+https://georgetown.box.com/s/y0y066u564g7lgfqxowffoqb9eto3hub
 
 ## Treemap
 ### Rationale
@@ -29,6 +31,7 @@ My original goal was to showcase how trade values are distributed across differe
 ![Screenshot 1](/treemap/proto1.jpg)
 
 ![Screenshot 2](/treemap/proto2.jpg)
+<<<<<<< HEAD
 
 # Radial Network
 
@@ -62,3 +65,5 @@ However, the problem is that for radial network function in networkD3, there is 
 
 Therefore, I finally chose to draw one graph that represent the overall situation of five years. As there are a lot of information, I set bigger font size for the nodes. The viewers can still find the information that they want. From the graph, viewers can choose the countries that they want to study, then lead to the top commodity types the country traded with USA. Then the viewers can reach to the conclusion that which industry that the country developed well and which industry got bad performance from 2016 to 2020. 
 
+=======
+>>>>>>> b7795810dff245df996d8e2e8fc604c8f9c5cc03
