@@ -67,7 +67,7 @@ Therefore, I finally chose to draw one graph that represent the overall situatio
 
 ## Slope Chart
 
-![screen shot](https://github.com/anly503/project-spring-2022-project-group-10/blob/main/`slope chart`/slope_chart.png)
+![screen shot](https://github.com/anly503/project-spring-2022-project-group-10/blob/main/slopechart/slope_chart.png)
 
 
 ### Rationales
