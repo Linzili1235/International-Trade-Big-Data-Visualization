@@ -41,7 +41,7 @@ My original goal was to showcase how trade values are distributed across differe
 
 ### Rationales
 
-The radial network contains international trade data with USA from 2016 to 2020. Specifically, the graph contains: 
+The goal of the radial network is to show the top 3 commodity types that each country have for each trade flow with USA from 2016 to 2020. The radial network contains international trade data with USA from 2016 to 2020. Specifically, the graph contains: 
 
 - countries that trade with USA
 - trade flow
