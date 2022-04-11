@@ -5,6 +5,28 @@
 
 [Georgetown Box](https://georgetown.box.com/s/y0y066u564g7lgfqxowffoqb9eto3hub)
 
+
+## World Heat Map
+
+![screen shot](https://github.com/anly503/project-spring-2022-project-group-10/blob/main/map/.png)
+
+
+### Rationale
+
+In order to figure out the impact of COVID-19 on international trade, a slope chart is plotted to compare the difference in total amounts of trade value between year 2016 and year 2020 with respect to different kinds of commodity categories. Since both import and export trades are our focus, two slope charts are plotted respectively and put together to compare the tendency for these two types of trades. The Race Bar Chart plotted before also focuses on the change of total amounts of trade value but is more likely to concentrate on the dynamic change year by year, aiming at finding the top 10 popular categories. This slope chart is plotted to help catch the audience's eyes immediately on the change between the beginning and the end year by the slope of each line. Moreover, the color of the slope clearly shows whether the change is positive or negative. Since there are over 90 categories, it is not realistic to plot changes in all categories. Moreover, the most popular categories of commodities are our primary interests. Therefore, we only select the top 8 categories based on the plotting result of the Race Bar Chart and perform the visualization in this slope chart. 
+
+### Data Preprocessing
+
+- Choose a subset of columns including `Year`, `Partner`, `Commodity.Code`, `Commodity`, `Trade.Value..US..`
+- Filter the data to keep only the trades between USA and World
+- Choose the trades with commodities belonging to the top 8 popular categories found by Race Bar Chart
+- Drop missing values
+
+### Goals changed
+
+The original goal of the slope chart is to plot the slope line for the top 10 categories in one figure. However, because text plays a significant role in this kind of plot and there occurred some overlapping problems among texts for different categories, two categories that tend to be steady from 2016 to 2020 without any obvious change are removed from the original plot for better visualization display. Therefore, the final version of the slope chart only contains the change of 8 categories.
+
+
 ## Treemap
 ### Prototype illustration
 ![Screenshot 1](/treemap/proto1.jpg)
@@ -32,6 +54,46 @@ My original goal was to showcase how trade values are distributed across differe
 6. Rescale quantity and trade value variables
 7. DONE
 
+
+## Race Bar Chart
+![Screenshot](/racebarchart/export.png)
+
+### Rationale
+This is a race bar chart with regard to the trade value of different commodity types. The goal of this visualization is to intuitively show the changes of top10 largest categories of commodities, both imported and exported, of the US. Different colors have been assigned to each category to make the trend clearer visually. The names of the commodities shown in the chart have also been simplified from the categories given by original dataset to avoid wordy text. The scale of the trade value is in billions to ensure that there are not too many zeros and enhance visibility.
+
+Matplotlib.animation is utilized in the animation process of the race bar chart. There are three interactive options for this visual: once, loop and reflect. Users can choose flexibly according to their needs. Also there are several play options that can let users either watch the whole animation or view the graphs one by one.
+
+### Data preprocessing pipeline
+1. Select variables 'Commodity Code', 'Commodity' and 'Trade Value (US$)' from the huge dataset.
+2. Change the type of `Commodity Code` from string to int. Note that `Commodity Code` has a value “total”, which refers to the sum trade value of all categories of commodities. Since the focus of the race bar chart is the rank of commodity types, we delete “total” from the dataset and convert it to int.
+3. Choose the main categories whose `Commodity Code` is from 1 to 99.
+4. Delete the values "Commodities not specified according to kind" from the `Commodity` column.
+5. Make abbreviation for the commodity names.
+
+### Vision and goals
+The goal of the race bar chart visualization does not change. It communicates the data story in the big picture. However, it does change a little in the way we demonstrate the commodity type. Initially we tried to add small icons to show the categories more vividly, but it turned out that icons could not convey the exact information of the product types. Conveying throught text is a more professional method. Also we add the trade values on the right of the bars to make the visual more scientific.
+
+
+
+## Slope Chart
+
+![screen shot](slopechart/slope_chart.png)
+
+
+### Rationale
+
+In order to figure out the impact of COVID-19 on international trade, a slope chart is plotted to compare the difference in total amounts of trade value between year 2016 and year 2020 with respect to different kinds of commodity categories. Since both import and export trades are our focus, two slope charts are plotted respectively and put together to compare the tendency for these two types of trades. The Race Bar Chart plotted before also focuses on the change of total amounts of trade value but is more likely to concentrate on the dynamic change year by year, aiming at finding the top 10 popular categories. This slope chart is plotted to help catch the audience's eyes immediately on the change between the beginning and the end year by the slope of each line. Moreover, the color of the slope clearly shows whether the change is positive or negative. Since there are over 90 categories, it is not realistic to plot changes in all categories. Moreover, the most popular categories of commodities are our primary interests. Therefore, we only select the top 8 categories based on the plotting result of the Race Bar Chart and perform the visualization in this slope chart. 
+
+### Data Preprocessing
+
+- Choose a subset of columns including `Year`, `Partner`, `Commodity.Code`, `Commodity`, `Trade.Value..US..`
+- Filter the data to keep only the trades between USA and World
+- Choose the trades with commodities belonging to the top 8 popular categories found by Race Bar Chart
+- Drop missing values
+
+### Goals changed
+
+The original goal of the slope chart is to plot the slope line for the top 10 categories in one figure. However, because text plays a significant role in this kind of plot and there occurred some overlapping problems among texts for different categories, two categories that tend to be steady from 2016 to 2020 without any obvious change are removed from the original plot for better visualization display. Therefore, the final version of the slope chart only contains the change of 8 categories.
 
 
 ## Radial Network
@@ -63,43 +125,3 @@ However, the problem is that for radial network function in networkD3, there is 
 
 Therefore, I finally chose to draw one graph that represent the overall situation of five years. As there are a lot of information, I set bigger font size for the nodes. The viewers can still find the information that they want. From the graph, viewers can choose the countries that they want to study, then lead to the top commodity types the country traded with USA. Then the viewers can reach to the conclusion that which industry that the country developed well and which industry got bad performance from 2016 to 2020. 
 
-
-
-## Slope Chart
-
-![screen shot](https://github.com/anly503/project-spring-2022-project-group-10/blob/main/slopechart/slope_chart.png)
-
-
-### Rationale
-
-In order to figure out the impact of COVID-19 on international trade, a slope chart is plotted to compare the difference in total amounts of trade value between year 2016 and year 2020 with respect to different kinds of commodity categories. Since both import and export trades are our focus, two slope charts are plotted respectively and put together to compare the tendency for these two types of trades. The Race Bar Chart plotted before also focuses on the change of total amounts of trade value but is more likely to concentrate on the dynamic change year by year, aiming at finding the top 10 popular categories. This slope chart is plotted to help catch the audience's eyes immediately on the change between the beginning and the end year by the slope of each line. Moreover, the color of the slope clearly shows whether the change is positive or negative. Since there are over 90 categories, it is not realistic to plot changes in all categories. Moreover, the most popular categories of commodities are our primary interests. Therefore, we only select the top 8 categories based on the plotting result of the Race Bar Chart and perform the visualization in this slope chart. 
-
-### Data Preprocessing
-
-- Choose a subset of columns including `Year`, `Partner`, `Commodity.Code`, `Commodity`, `Trade.Value..US..`
-- Filter the data to keep only the trades between USA and World
-- Choose the trades with commodities belonging to the top 8 popular categories found by Race Bar Chart
-- Drop missing values
-
-### Goals changed
-
-The original goal of the slope chart is to plot the slope line for the top 10 categories in one figure. However, because text plays a significant role in this kind of plot and there occurred some overlapping problems among texts for different categories, two categories that tend to be steady from 2016 to 2020 without any obvious change are removed from the original plot for better visualization display. Therefore, the final version of the slope chart only contains the change of 8 categories.
-
-
-## Race Bar Chart
-![Screenshot](/racebarchart/export.png)
-
-### Rationale
-This is a race bar chart with regard to the trade value of different commodity types. The goal of this visualization is to intuitively show the changes of top10 largest categories of commodities, both imported and exported, of the US. Different colors have been assigned to each category to make the trend clearer visually. The names of the commodities shown in the chart have also been simplified from the categories given by original dataset to avoid wordy text. The scale of the trade value is in billions to ensure that there are not too many zeros and enhance visibility.
-
-Matplotlib.animation is utilized in the animation process of the race bar chart. There are three interactive options for this visual: once, loop and reflect. Users can choose flexibly according to their needs. Also there are several play options that can let users either watch the whole animation or view the graphs one by one.
-
-### Data preprocessing pipeline
-1. Select variables 'Commodity Code', 'Commodity' and 'Trade Value (US$)' from the huge dataset.
-2. Change the type of `Commodity Code` from string to int. Note that `Commodity Code` has a value “total”, which refers to the sum trade value of all categories of commodities. Since the focus of the race bar chart is the rank of commodity types, we delete “total” from the dataset and convert it to int.
-3. Choose the main categories whose `Commodity Code` is from 1 to 99.
-4. Delete the values "Commodities not specified according to kind" from the `Commodity` column.
-5. Make abbreviation for the commodity names.
-
-### Vision and goals
-The goal of the race bar chart visualization does not change. It communicates the data story in the big picture. However, it does change a little in the way we demonstrate the commodity type. Initially we tried to add small icons to show the categories more vividly, but it turned out that icons could not convey the exact information of the product types. Conveying throught text is a more professional method. Also we add the trade values on the right of the bars to make the visual more scientific.
