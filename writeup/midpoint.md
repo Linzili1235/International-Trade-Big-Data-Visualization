@@ -1,10 +1,10 @@
 # Midpoint Writeup
 
 ## Treemap
-* **Rationale** \\n
+### Rationale
     asdfasd
 
-* **Data preprocessing pipeline**
+### Data preprocessing pipeline
     1. Change column names to snake case
     2. Drop unwanted columns
     3. Filter desired rows: partner=world and only root categories (Commodity code in [1,99]) in this case
