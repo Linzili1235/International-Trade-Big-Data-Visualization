@@ -1,7 +1,9 @@
 # Midpoint Writeup
 
 ## Link to the data
-**PUT LINK HERE**
+**Original Resource**
+**Georgetown Box** 
+https://georgetown.box.com/s/y0y066u564g7lgfqxowffoqb9eto3hub
 
 ## Treemap
 ### Rationale
