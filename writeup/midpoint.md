@@ -8,10 +8,10 @@
 
 ## World Heat Map
 
-Import:
+### Import:
 ![screen shot](/map/import.png)
 
-Export:
+### Export:
 ![screen shot](/map/export.png)
 
 
