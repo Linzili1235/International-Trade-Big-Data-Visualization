@@ -14,7 +14,7 @@ Moreover, tooltip is used to display details about each category when the cursor
 In terms of visual encoding choices, diverging color encoding is used for the quantity variable, which emphasizes values on both ends of the scale. 
 
 ### Vision and goals
-My original goal was to showcase how trade values are distributed across different commodity catogories using percentage values to represent share in the economy. However, during the making of the prototype, I felt it is bette to use absolute trade values because it gives a better sense in terms of the scale of a commodity category. Apart from this, I sticked to my original plan. The current treemap is effective in showing the top commodity categories for US export. 
+My original goal was to showcase how trade values are distributed across different commodity catogories using percentage values to represent share in the economy. However, during the making of the prototype, I felt it is better to use absolute trade values because it gives a better sense in terms of the scale of a commodity category. Apart from this, I sticked to my original plan. The current treemap is effective in showing the top commodity categories for US export. 
 
 ### Data preprocessing pipeline
 1. Change column names to snake case
