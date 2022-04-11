@@ -1,7 +1,7 @@
 # Midpoint Writeup
 
 ## Treemap
-* **Rationale** 
+* **Rationale** \\n
     asdfasd
 
 * **Data preprocessing pipeline**
