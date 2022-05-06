@@ -1,4 +1,5 @@
 import plotly.express as px
+import plotly.graph_objects as go
 import seaborn as sns
 import pandas as pd
 import numpy as np
@@ -8,120 +9,191 @@ import textwrap
 pd.set_option("display.max_rows", None)
 
 # Load data
-dat_exp16 = pd.read_csv("./data/USA_ALL_export_2016_allproduct.csv")
+dat_ex16 = pd.read_csv("./data/USA_ALL_export_2016_allproduct.csv")
+dat_ex17 = pd.read_csv("./data/USA_ALL_export_2017_allproduct.csv")
+dat_ex18 = pd.read_csv("./data/USA_ALL_export_2018_allproduct.csv")
+dat_ex19 = pd.read_csv("./data/USA_ALL_export_2019_allproduct.csv")
+dat_ex20 = pd.read_csv("./data/USA_ALL_export_2020_allproduct.csv")
+
+dat_im16 = pd.read_csv("./data/USA_ALL_import_2016_allproduct.csv")
+dat_im17 = pd.read_csv("./data/USA_ALL_import_2017_allproduct.csv")
+dat_im18 = pd.read_csv("./data/USA_ALL_import_2018_allproduct.csv")
+dat_im19 = pd.read_csv("./data/USA_ALL_import_2019_allproduct.csv")
+dat_im20 = pd.read_csv("./data/USA_ALL_import_2020_allproduct.csv")
 
 ############## Data munging ##############
+big_df_ex = [dat_ex16, dat_ex17, dat_ex18, dat_ex19, dat_ex20]
+big_df_im = [dat_im16, dat_im17,dat_im18,dat_im19,dat_im20]
+clean_df = list()
 
-# Change column names to snake case
-col_names = dat_exp16.head()
-pattern = re.compile(r"[( -.)]")
-new_names = []
-for name in col_names:
-    new_names.append(pattern.sub("_", name).lower())
-# print(new_names)
-dat_exp16.columns = new_names
+# Creaet a function for label wrapping
+def customwrap(s, width=50):
+    return "<br>".join(textwrap.wrap(s, width=width))
 
-# Drop unwanted columns
-dat_exp16 = dat_exp16.drop(
-    [
-        "classification",
-        "period",
-        "period_desc_",
-        "aggregate_level",
-        "is_leaf_code",
-        "trade_flow",
-        "reporter_iso",
-        "2nd_partner_code",
-        "2nd_partner",
-        "2nd_partner_iso",
-        "customs_proc__code",
-        "customs",
-        "mode_of_transport_code",
-        "mode_of_transport",
-        "alt_qty_unit_code",
-        "alt_qty_unit",
-        "alt_qty",
-        "gross_weight__kg_",
-        "cif_trade_value__us__",
-        "flag",
-        "netweight__kg_",
-        "qty_unit_code",
-    ],
-    axis=1,
-)
-# print(dat_exp16.head(10))
 
-dat_exp16_lit = dat_exp16.drop(dat_exp16.columns[[1, 2, 3, 4, 6]], axis=1)
-# print(dat_exp16_lit.head(10))
+# Clean all dfs with for loop
+for df in big_df_im:
+    # Change column names to snake case
+    col_names = df.head()
+    pattern = re.compile(r"[( -.)]")
+    new_names = []
+    for name in col_names:
+        new_names.append(pattern.sub("_", name).lower())
+    # print(new_names)
+    df.columns = new_names
 
-# World data
-dat_exp16_world = dat_exp16_lit.loc[dat_exp16_lit["partner"] == "World"]
-# Drop last row (Total)
-dat_exp16_world.drop(dat_exp16_world.tail(1).index, inplace=True)
-# Convert object to int
-dat_exp16_world["commodity_code"] = dat_exp16_world.commodity_code.astype(np.int64)
-dat_exp16_world["qty"] = dat_exp16_world.qty.astype(np.float64)
+    # Drop unwanted columns
+    df = df.drop(
+        [
+            "classification",
+            "period",
+            "period_desc_",
+            "aggregate_level",
+            "is_leaf_code",
+            "trade_flow",
+            "reporter_iso",
+            "2nd_partner_code",
+            "2nd_partner",
+            "2nd_partner_iso",
+            "customs_proc__code",
+            "customs",
+            "mode_of_transport_code",
+            "mode_of_transport",
+            "alt_qty_unit_code",
+            "alt_qty_unit",
+            "alt_qty",
+            "gross_weight__kg_",
+            "cif_trade_value__us__",
+            "flag",
+            "netweight__kg_",
+            "qty_unit_code",
+        ],
+        axis=1,
+    )
+    # print(df.columns)
 
-# Compute the sum of commodity quantity for all root categories
-dat_exp16_w_temp = dat_exp16_world.loc[dat_exp16_world["commodity_code"] > 10000]
-dat_exp16_w_temp["commodity_code"] = dat_exp16_w_temp["commodity_code"] / 10000
-dat_exp16_w_temp.commodity_code = dat_exp16_w_temp.commodity_code.round()
-# print(dat_exp16_w_temp.head(10))
-# print(dat_exp16_w_temp.commodity_code.unique())
-qty_sum = dat_exp16_w_temp.groupby(["commodity_code", "year"])[
-    "qty", "trade_value__us__", "fob_trade_value__us__"
-].sum()
-qty_sum = qty_sum.reset_index()
+    df = df.drop(df.columns[[1, 2, 3, 4, 6]], axis=1)
+    # print(df.columns)
 
-# Sub sum into World dataset
-dat_exp16_w = dat_exp16_world.loc[dat_exp16_world["commodity_code"] < 100]
-dat_exp16_w = dat_exp16_w.reset_index()
-dat_exp16_w.drop(["qty"], axis=1, inplace=True)
+    # World data
+    df_world = df.loc[df["partner"] == "World"]
+    # Drop last row (Total)
+    df_world.drop(df_world.tail(1).index, inplace=True)
+    # Convert object to int
+    df_world["commodity_code"] = df_world.commodity_code.astype(np.int64)
+    df_world["qty"] = df_world.qty.astype(np.float64)
 
-# Drop all rows with either 0 qty or trade value
-dat_exp16_w["qty"] = qty_sum["qty"]
-dat_exp16_w = dat_exp16_w[(dat_exp16_w[["trade_value__us__", "qty"]] != 0).all(axis=1)]
+    # Compute the sum of commodity quantity for all root categories
+    temp = df_world.loc[df_world["commodity_code"] > 10000]
+    temp["commodity_code"] = temp["commodity_code"] / 10000
+    temp.commodity_code = temp.commodity_code.round()
+    # print(dat_exp16_w_temp.head(10))
+    # print(dat_exp16_w_temp.commodity_code.unique())
+    qty_sum = temp.groupby(["commodity_code", "year"])[
+        "qty", "trade_value__us__", "fob_trade_value__us__"
+    ].sum()
+    qty_sum = qty_sum.reset_index()
 
-# Rescale quantity and trade value
-dat_exp16_w["qty"] = round(np.log(dat_exp16_w["qty"]), 2)
-dat_exp16_w["trade_value__us__"] = round(
-    dat_exp16_w["trade_value__us__"] / (10 ** 6), 0
-)
+    # Sub sum into World dataset
+    df_world = df_world.loc[df_world["commodity_code"] < 100]
+    df_world = df_world.reset_index()
+    df_world.drop(["qty"], axis=1, inplace=True)
+    df_world["qty"] = qty_sum["qty"]
+    # Drop all rows with either 0 qty or trade value
+    df_world = df_world[(df_world[["trade_value__us__", "qty"]] != 0).all(axis=1)]
 
-# print(dat_exp16_w.tail())
-# print(dat_exp16_w.dtypes)
+    # Rescale quantity and trade value
+    # df_world["qty"] = round(np.log(df_world["qty"]), 2)
+    df_world["trade_value__us__"] = round(df_world["trade_value__us__"] / (10**6), 0)
 
-# exit()
+    df_world["world"] = "Commodity Categories"  # in order to have a single root node
+
+    # Sort the labels by the path in reverse order to make sure the order in tooltip is correct
+    df_world.sort_values(by=["commodity", "world"], inplace=True)
+
+    # Wrap label
+    df_world.commodity = df_world.commodity.map(customwrap)
+
+    clean_df.append(df_world)
+    # print(clean_df[1].head())
+    # print(clean_df.tail())
+    # print(clean_df.dtypes)
+    # exit()
 ###################################
 
 # Plot the treemap
-df = dat_exp16_w
-df["world"] = "Commodity Categories"  # in order to have a single root node
+df = pd.concat(clean_df)
+big_list = list(df.groupby("year"))
+# print(big_list[1][0]) # 2017
 
-# Sort the labels by the path in reverse order to make sure the order in tooltip is correct
-df.sort_values(by=["commodity", "world"], inplace=True)
+first_title = big_list[0][0]
+traces = []
+buttons = []
+for i, d in enumerate(big_list):
+    visible = [False] * len(big_list)
+    visible[i] = True
+    name = d[0]
+    year = d[1].year.tolist()
+    trade_value = d[1].trade_value__us__.tolist()
+    customdata = np.column_stack([year, trade_value])
+    hovertemplate = "Category = %{label}<br>Year = %{customdata[0]}<br>Trade value (US $MM) = %{customdata[1]}<br>Quantity (Num. of Unit) = %{value}"
+    traces.append(
+        px.treemap(
+            d[1],
+            path=["world", "commodity"],
+            values="qty",
+            color="trade_value__us__",
+        )
+        .update_traces(
+            visible=True if i == 0 else False,
+            customdata=customdata,
+            hovertemplate=hovertemplate,
+        )
+        .data[0]
+    )
+    buttons.append(
+        dict(
+            label=name,
+            method="update",
+            args=[
+                {"visible": visible},
+                {
+                    "title": "Treemap on Trade Value and Quantity for All Commodity Categories (US Import)"
+                },
+            ],
+        )
+    )
 
-# Wrap label
-def customwrap(s, width=50):
-    return "<br>".join(textwrap.wrap(s, width=width))
-df.commodity = df.commodity.map(customwrap)
+updatemenus = [
+    {
+        "active": 0,
+        "buttons": buttons,
+        "showactive": True,
+        "x": 0.06,
+        "xanchor": "left",
+        "y": 1.08,
+        "yanchor": "top",
+        
+    }
+]
 
-fig = px.treemap(
-    df,
-    path=["world", "commodity"],  # << sets hierarchy
-    values="trade_value__us__",
-    color="qty",
-    # hover_data=["year"],
-    color_continuous_scale="RdBu",
-    color_continuous_midpoint=np.average(df["qty"]),
-    labels={"qty": "Log(quantity)"},
+fig = go.Figure(
+    data=traces,
+    layout=dict(updatemenus=updatemenus),
 )
-year = df.year.tolist()
-quantity = df.qty.tolist()
-# fig.data[0].customdata = np.column_stack([year, quantity])
-# fig.data[0].hovertemplate = 'Category = %{label}<br>Year = %{customdata[0]}<br>Trade value(US $MM) = %{value}<br>Quantity = %{customdata[1]}'
-customdata = np.column_stack([year, quantity])
-hovertemplate = "Category = %{label}<br>Year = %{customdata[0]}<br>Trade value(US $MM) = %{value}<br>Quantity = %{customdata[1]}"
-fig.update_traces(customdata=customdata, hovertemplate=hovertemplate)
+
+fig.update_layout(
+    title="Treemap on Trade Value and Quantity for All Commodity Categories (US Import)",
+    title_x=0.5,
+    # colorscale=dict(sequential="peach"), # Export
+    colorscale=dict(sequential="teal"), # Import
+    coloraxis_colorbar=dict(title="Trade Value (US $MM)"),
+    annotations=[
+        dict(text="Year:", showarrow=False, x=0, y=1.08, yref="paper", align="left")
+    ],
+)
+# fig.data[0]['textfont']['size'] = 20
+fig["layout"]["font"] = dict(size=18)
 fig.show()
-fig.write_html("treemap.html")  # , auto_open=True)
+
+fig.write_html("treemap_import.html")  # , auto_open=True)
