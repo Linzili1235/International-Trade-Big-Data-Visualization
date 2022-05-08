@@ -36,7 +36,7 @@ plot_slope = function(df){
     geom_vline(xintercept=2, linetype="dashed", size=.1) +
     scale_color_manual(labels = c("Up", "Down"), 
                        values = c("green"="#00ba38", "red"="#f8766d")) +  # color of lines
-    labs(x="Year", y="Trade Value (Billion US$)") +  # Axis labels
+    labs(x="Year", y="Trade Value (US$ Billion)") +  # Axis labels
     xlim(-0.7, 3.7) + ylim(0.99*(min(df$`2016`, df$`2020`)),(1.05*(max(df$`2016`, df$`2020`))))  # X and Y axis limits
     # xlim(-0.25, 3.25)
   
