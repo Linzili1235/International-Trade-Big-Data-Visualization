@@ -7,12 +7,10 @@ import numpy as np
 from pyparsing import empty
 from altair_saver import save
 
-os.chdir("/Users/linzili1235/Desktop/graduate/503/project")
-
+# os.chdir("/Users/linzili1235/Desktop/graduate/503/project")
 file_list = os.listdir('proj_data')
 # keep only import data
 file_name = [s for s in file_list if 'import' in s]
-
 os.chdir('proj_data')
 
 
@@ -64,15 +62,14 @@ df_nEU = df_need.loc[~df_need['Partner'].isin(EU)]
 df_nEU = df_nEU.loc[df_nEU['Partner'] != 'Indonesia']
 df_final = pd.concat([df_EU, df_nEU], axis=0)
 df_final['Trade_Value'] = df_final['Trade_Value'].div(10000000000)
-df_final['Year'] = pd.to_datetime(df_final['Year'], format='%Y-%m-%d')
-df_final
-
+# df_final['Year'] = pd.to_datetime(df_final['Year'], format='%Y')
+# df_final['Year'] = pd.DatetimeIndex(df_final['Year']).year
 df_final = df_final.reset_index()
-df_final
+
+
 # Exchange data
 # https://fred.stlouisfed.org/
-os.chdir("/Users/linzili1235/Desktop/graduate/503/project")
-
+# os.chdir("/Users/linzili1235/Desktop/graduate/503/project")
 file_list = os.listdir('exchange_data')
 country_name = [s.rsplit('.', 1)[0] for s in file_list]
 os.chdir('exchange_data')
@@ -80,11 +77,12 @@ os.chdir('exchange_data')
 
 def exchange_data(file_list):
     start_date = '2016-01-01'
-    end_date = '2020-12-01'
+    end_date = '2020-12-31'
     df1 = pd.read_csv(file_list[0])
     df1.columns = ['Time', 'Exchange_Rate']
+    df1['Year'] = df1['Time'].str.slice(stop=4)
     df1['Time'] = df1['Time'].str.slice(stop=7)
-    df1 = df1.groupby(['Time'], as_index=False)['Exchange_Rate'].max()
+    df1 = df1.groupby(['Time', 'Year'], as_index=False)['Exchange_Rate'].max()
     df1['Time'] = pd.to_datetime(df1['Time'])
     mask1 = (df1['Time'] >= start_date) & (df1['Time'] <= end_date)
     df1 = df1.loc[mask1].reset_index()
@@ -92,46 +90,56 @@ def exchange_data(file_list):
     for i in range(1, len(file_list)):
         df = pd.read_csv(file_list[i])
         df.columns = ['Time', 'Exchange_Rate']
+        df['Year'] = df['Time'].str.slice(stop=4)
         df['Time'] = df['Time'].str.slice(stop=7)
-        df = df.groupby(['Time'], as_index=False)['Exchange_Rate'].max()
+        df = df.groupby(['Time', 'Year'], as_index=False)[
+            'Exchange_Rate'].max()
         df['Time'] = pd.to_datetime(df['Time'])
+        mask1 = (df['Time'] >= start_date) & (df['Time'] <= end_date)
+        df = df.loc[mask1].reset_index()
         df['Partner'] = [country_name[i]]*len(df)
         df1 = pd.concat([df1, df], axis=0)
     return df1
 
 
 df_exchange = exchange_data(file_list)
+df_exchange['Year'] = df_exchange['Year'].astype('int')
+df_exchange.dtypes
+
+df_csv = df_exchange.merge(df_final, how='left', on=['Year', 'Partner'])
+# df_csv['Year'] = df_csv['Year'].astype('str')
+
+
 # Plot
 # base = alt.Chart(df_exchange).encode(
 
 # )
-selector = alt.selection_interval(empty='all', fields=['Partner'])
-color_scale = alt.Scale(domain=country_name, scheme='category10')
-base = alt.Chart().properties(
-    width=250,
-    height=250
+selector = alt.selection_single(
+    empty='all', fields=['Partner'])
+color_scale = alt.Scale(domain=['EU_Country', 'Canada', 'Israel', 'Brazil', 'China'], range=[
+                        '#1FC3AA', '#8624F5', '#1569C7', '#C58917', '#C04000'])
+base = alt.Chart(df_csv).properties(
+    width=350,
+    height=350
 ).add_selection(selector)
 
-lines = alt.Chart(df_exchange).mark_line().encode(
-    alt.X('Time:T', axis=alt.Axis(title='Time(monthly)',
-                                  titleColor='#1f77b4')),
-    alt.Y('Exchange_Rate:Q', axis=alt.Axis(title='Exchange_Rate(1 dollar)',
-                                           titleColor='seagreen')),
+lines = base.mark_line().encode(
+    alt.X('Time:T', axis=alt.Axis(title='Time (monthly)')),
+    alt.Y('Exchange_Rate:Q', axis=alt.Axis(title='Exchange_Rate(1 dollar)')),
     color=alt.condition(selector,
                         'Partner:N',
                         alt.value('lightgray'),
-                        scale=color_scale))
-lines
-hists = alt.Chart(df_final).mark_bar(size=25).encode(
-    alt.X('Year:Q', bin=True,
-          axis=alt.Axis(title='Time(yearly)',
-                        titleColor='#1f77b4')),
-    alt.Y('Trade_Value:Q', axis=alt.Axis(title='Trade_Value(US$ billions)',
-                                         titleColor='seagreen'), stack=None),
-    color=alt.Color('Partner:N',
-                    scale=color_scale)).transform_aggregate(
-    mean_acc='mean(Trade_Value)',
-    groupby=["Year"]
-).transform_filter(selector)
+                        scale=color_scale)).properties(title='Exchange Rates of Five Areas from 2016 to 2020')
+
+hists = base.mark_bar().encode(
+    alt.X('year(Time):T',  # bin=True,
+          axis=alt.Axis(
+              title='Time (yearly)')),
+    alt.Y('Trade_Value:Q', axis=alt.Axis(title='Trade_Value(US$ billions)')),
+    alt.Color('Partner:N',
+              scale=color_scale)).properties(title='Import Trade Values from Five Areas from 2016 to 2020')\
+    .transform_filter(selector)
+
 chart = lines | hists
+# os.chdir("/Users/linzili1235/Desktop/graduate/503/project")
 chart.save('chart.html')
