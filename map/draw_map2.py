@@ -10,7 +10,6 @@ import folium
 import geopandas as gpd
 from folium import plugins
 from shapely.geometry import Polygon, mapping
-from shapely.geometry import MultiPolygon
 import branca.colormap as cm
 
 USA = gpd.read_file("geoBoundaries-USA-ADM0.geojson")
@@ -42,7 +41,7 @@ def Basemap():
         sim_geo = gpd.GeoSeries(r).simplify(tolerance = 0.1)
         geo_j = sim_geo.to_json()
         geo_j = folium.GeoJson(data=geo_j,
-                           style_function=lambda x: {'fillColor': 'pink','color':'gray','weight':1.5})
+                           style_function=lambda x: {'fillColor': '#00000000','color':'gray','weight':1.5})
         folium.Popup("United States").add_to(geo_j)
         geo_j.add_to(map1)
         
@@ -113,9 +112,6 @@ def generate_feature_new(filename):
     feature_list = []
     for point in data[filename]:
         geo = boundary_dict[point['country']];
-        value = point["sum_value"] / 10**9 / 5
-        if(value < 10):
-            value += 1
                 
         fillcolor = set_color(Type, point["sum_value"] / 10**9)
         if(geo != 'error'):
@@ -135,21 +131,19 @@ def generate_feature_new(filename):
                         },
                         "properties": {
                             "time": str(point["datetime"]),
-                            'style': {'color' : "gray", "fillColor" : fillcolor, 'weight':0.7},
+                            'style': {'color' : "gray", "fillColor" : fillcolor, "fillOpacity": 1, 'weight':0.7},
                                 # 'iconstyle':{
                                 #     'fillColor': fillcolor,
                                 #     'fillOpacity': 0.8,
                                 #     'stroke': 'true',
                                 # }
+                            'popup':  point['country'] + ": " + str(point["sum_value"] / 10**9) + " trillion"
                         },
                     }
                     feature_list.append(feature)
                 
     return feature_list
     
-
-
-
     
 points_import = []
 points_export = []

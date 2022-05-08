@@ -36,14 +36,15 @@ plot_slope = function(df){
     geom_vline(xintercept=2, linetype="dashed", size=.1) +
     scale_color_manual(labels = c("Up", "Down"), 
                        values = c("green"="#00ba38", "red"="#f8766d")) +  # color of lines
-    labs(x="Year", y="Trade Value (Billion)") +  # Axis labels
-    xlim(-0.25, 3.25) + ylim(0,(1.1*(max(df$`2016`, df$`2020`))))  # X and Y axis limits
+    labs(x="Year", y="Trade Value (US$ billion)") +  # Axis labels
+    xlim(-0.7, 3.7) + ylim(0.99*(min(df$`2016`, df$`2020`)),(1.05*(max(df$`2016`, df$`2020`))))  # X and Y axis limits
+    # xlim(-0.25, 3.25)
   
   # Add texts
-  p <- p + geom_text(label=left_label, y=df$`2016`, x=rep(1, NROW(df)), hjust=1.1, size=2.5)
-  p <- p + geom_text(label=right_label, y=df$`2020`, x=rep(2, NROW(df)), hjust=-0.1, size=2.5)
-  p <- p + geom_text(label="2016", x=1, y=1.1*(max(df$`2016`, df$`2020`)), hjust=1.2, size=5)  # title
-  p <- p + geom_text(label="2020", x=2, y=1.1*(max(df$`2016`, df$`2020`)), hjust=-0.1, size=5)  # title
+  p <- p + geom_text(label=left_label, y=df$`2016`, x=rep(1, NROW(df)), hjust=1.1, size=2.7)
+  p <- p + geom_text(label=right_label, y=df$`2020`, x=rep(2, NROW(df)), hjust=-0.1, size=2.7)
+  p <- p + geom_text(label="2016", x=1, y=1.05*(max(df$`2016`, df$`2020`)), hjust=1.2, size=5)  # title
+  p <- p + geom_text(label="2020", x=2, y=1.05*(max(df$`2016`, df$`2020`)), hjust=-0.1, size=5)  # title
   
   # Minify theme
   p + theme(panel.background = element_blank(), 
@@ -64,15 +65,22 @@ ex20 <- read.csv("proj_data/USA_ALL_export_2020_allproduct.csv")
 # Choose a subset from top 10 categories based on the previous plot
 im_codes = c('27', '30', '39', '71', '84', '85', '87', '90', '94', '99')
 ex_codes = c('27', '30', '39', '71', '84', '85', '87', '88', '90', '99')
-codes = c('27', '30', '71', '84', '85', '87', '88', '90')
+codes = c('27', '30', 
+          #'39', 
+          '71', '84', '85', '87', '88', '90'
+          #'94'
+          )
 texts = c('Minerals', 
           'Pharmaceutical Products',
+          #'Plastic Articles',
           'Gems and Metals',
           'Nuclear Appliances',
           'Electrical Machinery', 
           'Vehicles', 
           'Aerospace',
-          'Optical Apparatus')
+          'Optical Apparatus'
+          #'Furniture'
+          )
 
 # Clean the datasets
 d_im_16 = prep_data(im16)
@@ -90,5 +98,5 @@ s2 <- plot_slope(df_ex)
 
 # Plot two figures in one row
 ggarrange(s1, s2,
-          labels = c("Slope Chart for Import", "Slope Chart for Export"),
+          labels = c("Development of Import Trade Value", "Development of Export Trade Value"),
           ncol = 2, nrow = 1)
