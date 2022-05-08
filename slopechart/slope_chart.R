@@ -98,5 +98,5 @@ s2 <- plot_slope(df_ex)
 
 # Plot two figures in one row
 ggarrange(s1, s2,
-          labels = c("Slope Chart for Import", "Slope Chart for Export"),
+          labels = c("Development for Import Trade Value", "Development for Export Trade Value"),
           ncol = 2, nrow = 1)
