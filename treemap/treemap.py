@@ -125,8 +125,8 @@ for df in big_df_ex:
 
 # Plot the treemap
 df = pd.concat(clean_df)
-print(df.shape)
-exit()
+# print(df.shape)
+# exit()
 big_list = list(df.groupby("year"))
 # print(big_list[1][0]) # 2017
 
