@@ -15,7 +15,7 @@ import branca.colormap as cm
 USA = gpd.read_file("geoBoundaries-USA-ADM0.geojson")
 
 def Basemap():
-    map1 = map1 = folium.Map(zoom_start = 2.5,location=[40.7, -43.98], tiles='cartodbpositron',max_bounds=True, max_zoom = 3, min_zoom = 2.5)
+    map1 = map1 = folium.Map(zoom_start = 2,location=[40.7, -43.98], tiles='cartodbpositron',max_bounds=True, max_zoom = 3, min_zoom = 2)
     
     # for k,r in boundary_dict.items():
     #     if r!= 'error':
