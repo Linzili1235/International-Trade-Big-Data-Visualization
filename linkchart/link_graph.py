@@ -7,11 +7,11 @@ import numpy as np
 from pyparsing import empty
 from altair_saver import save
 
-os.chdir('/Users/linzili1235/Desktop/graduate/503/code/project')
-file_list = os.listdir('proj_data')
+#os.chdir('/Users/linzili1235/Desktop/graduate/503/code/project')
+file_list = os.listdir('trade_data')
 # keep only import data
 file_name = [s for s in file_list if 'import' in s]
-os.chdir('proj_data')
+os.chdir('trade_data')
 
 
 def data_preparation(name):
@@ -69,10 +69,10 @@ df_final = df_final.reset_index()
 
 # Exchange data
 # https://fred.stlouisfed.org/
-os.chdir('/Users/linzili1235/Desktop/graduate/503/code/project')
+#os.chdir('/Users/linzili1235/Desktop/graduate/503/code/project')
 file_list = os.listdir('exchange_data')
 country_name = [s.rsplit('.', 1)[0] for s in file_list]
-os.chdir('/Users/linzili1235/Desktop/graduate/503/code/project/exchange_data')
+os.chdir('exchange_data')
 
 
 def exchange_data(file_list):
@@ -119,8 +119,8 @@ selector = alt.selection_single(
 color_scale = alt.Scale(domain=['EU_Country', 'Canada', 'Israel', 'Brazil', 'China'], range=[
                         '#00008B', '#C04000', '#1E90FF', '#006400', '#990012'])
 base = alt.Chart(df_csv).properties(
-    width=550,
-    height=550
+    width=500,
+    height=500
 ).add_selection(selector)
 
 lines = base.mark_line().encode(
@@ -141,5 +141,5 @@ hists = base.mark_bar().encode(
     .transform_filter(selector)
 
 chart = lines | hists
-os.chdir('/Users/linzili1235/Desktop/graduate/503/code/project')
+#os.chdir('/Users/linzili1235/Desktop/graduate/503/code/project')
 chart.save('chart.html')
