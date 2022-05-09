@@ -33,6 +33,7 @@ def customwrap(s, width=50):
 
 # Clean all dfs with for loop
 for df in big_df_ex:
+# for df in big_df_im:
     # Change column names to snake case
     col_names = df.head()
     pattern = re.compile(r"[( -.)]")
@@ -173,9 +174,9 @@ updatemenus = [
         "active": 0,
         "buttons": buttons,
         "showactive": True,
-        "x": 0.05,
+        "x": 0.06,
         "xanchor": "left",
-        "y": 1.05,
+        "y": 1.09,
         # "yanchor": "top",
         
     }
@@ -193,7 +194,7 @@ fig.update_layout(
     # colorscale=dict(sequential="teal"), # Import
     coloraxis_colorbar=dict(title="Trade Value (US$ billion)"),
     annotations=[
-        dict(text="Year:", showarrow=False, x=0, y=1.05, yref="paper", align="left")
+        dict(text="Year:  ", showarrow=False, x=0, y=1.09, yref="paper", align="left")
     ],
 )
 # fig.data[0]['textfont']['size'] = 20
