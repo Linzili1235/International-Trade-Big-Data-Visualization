@@ -137,7 +137,7 @@ def generate_feature_new(filename):
                                 #     'fillOpacity': 0.8,
                                 #     'stroke': 'true',
                                 # }
-                            'popup':  point['country'] + ": " + str(point["sum_value"] / 10**9) + " trillion"
+                            'popup':  point['country'] + ": " + str(point["sum_value"] / 10**9) + " billion"
                         },
                     }
                     feature_list.append(feature)
@@ -166,7 +166,7 @@ def drawMap(points_list, Type):
 
     cmap = type_color(Type)
     _ = cmap.add_to(map1)
-    cmap.caption = "sum of trade value (in trillion)"
+    cmap.caption = "sum of trade value (in billion)"
 
     map1.save(Type + "2.html")
     
