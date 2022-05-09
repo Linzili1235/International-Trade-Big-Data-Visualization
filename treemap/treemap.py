@@ -32,7 +32,8 @@ def customwrap(s, width=50):
 
 
 # Clean all dfs with for loop
-for df in big_df_im:
+for df in big_df_ex:
+# for df in big_df_im:
     # Change column names to snake case
     col_names = df.head()
     pattern = re.compile(r"[( -.)]")
@@ -67,6 +68,8 @@ for df in big_df_im:
             "flag",
             "netweight__kg_",
             "qty_unit_code",
+            "qty_unit",
+            "fob_trade_value__us__"
         ],
         axis=1,
     )
@@ -90,21 +93,21 @@ for df in big_df_im:
     # print(dat_exp16_w_temp.head(10))
     # print(dat_exp16_w_temp.commodity_code.unique())
     qty_sum = temp.groupby(["commodity_code", "year"])[
-        "qty", "trade_value__us__", "fob_trade_value__us__"
+        "qty", "trade_value__us__"
     ].sum()
-    qty_sum = qty_sum.reset_index()
+    qty_sum = qty_sum.reset_index(drop=True)
 
     # Sub sum into World dataset
     df_world = df_world.loc[df_world["commodity_code"] < 100]
-    df_world = df_world.reset_index()
+    df_world = df_world.reset_index(drop=True)
     df_world.drop(["qty"], axis=1, inplace=True)
     df_world["qty"] = qty_sum["qty"]
     # Drop all rows with either 0 qty or trade value
     df_world = df_world[(df_world[["trade_value__us__", "qty"]] != 0).all(axis=1)]
 
-    # Rescale quantity and trade value
+    # Rescale trade value
     # df_world["qty"] = round(np.log(df_world["qty"]), 2)
-    df_world["trade_value__us__"] = round(df_world["trade_value__us__"] / (10**6), 0)
+    df_world["trade_value__us__"] = round(df_world["trade_value__us__"] / (10**9), 0)
 
     df_world["world"] = "Commodity Categories"  # in order to have a single root node
 
@@ -123,6 +126,8 @@ for df in big_df_im:
 
 # Plot the treemap
 df = pd.concat(clean_df)
+# print(df.shape)
+# exit()
 big_list = list(df.groupby("year"))
 # print(big_list[1][0]) # 2017
 
@@ -136,7 +141,7 @@ for i, d in enumerate(big_list):
     year = d[1].year.tolist()
     trade_value = d[1].trade_value__us__.tolist()
     customdata = np.column_stack([year, trade_value])
-    hovertemplate = "Category = %{label}<br>Year = %{customdata[0]}<br>Trade value (US $MM) = %{customdata[1]}<br>Quantity (Num. of Unit) = %{value}"
+    hovertemplate = "Category = %{label}<br>Year = %{customdata[0]}<br>Trade value (US$ bilion) = %{customdata[1]}<br>Quantity (num. of unit) = %{value}"
     traces.append(
         px.treemap(
             d[1],
@@ -158,7 +163,7 @@ for i, d in enumerate(big_list):
             args=[
                 {"visible": visible},
                 {
-                    "title": "Treemap on Trade Value and Quantity for All Commodity Categories (US Import)"
+                    "title": "Treemap on Trade Value and Quantity for All Commodity Categories (US Export)"
                 },
             ],
         )
@@ -171,8 +176,8 @@ updatemenus = [
         "showactive": True,
         "x": 0.06,
         "xanchor": "left",
-        "y": 1.08,
-        "yanchor": "top",
+        "y": 1.09,
+        # "yanchor": "top",
         
     }
 ]
@@ -183,17 +188,18 @@ fig = go.Figure(
 )
 
 fig.update_layout(
-    title="Treemap on Trade Value and Quantity for All Commodity Categories (US Import)",
+    title="Treemap on Trade Value and Quantity for All Commodity Categories (US Export)",
     title_x=0.5,
-    # colorscale=dict(sequential="peach"), # Export
-    colorscale=dict(sequential="teal"), # Import
-    coloraxis_colorbar=dict(title="Trade Value (US $MM)"),
+    colorscale=dict(sequential="peach"), # Export
+    # colorscale=dict(sequential="teal"), # Import
+    coloraxis_colorbar=dict(title="Trade Value (US$ billion)"),
     annotations=[
-        dict(text="Year:", showarrow=False, x=0, y=1.08, yref="paper", align="left")
+        dict(text="Year:  ", showarrow=False, x=0, y=1.09, yref="paper", align="left")
     ],
 )
 # fig.data[0]['textfont']['size'] = 20
+fig["layout"]["title"]["font"] = dict(size=16)
 fig["layout"]["font"] = dict(size=18)
 fig.show()
 
-fig.write_html("treemap_import.html")  # , auto_open=True)
+fig.write_html("treemap_export.html")  # , auto_open=True)
